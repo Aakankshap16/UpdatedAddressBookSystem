@@ -20,32 +20,51 @@ namespace Update_AddressBookSystem
                 Console.WriteLine("Duplicate Entries are not possible");
                 return;
             }
-                Console.WriteLine("Enter Last name: ");
-                newContact.lastName = Console.ReadLine();
+            Console.WriteLine("Enter Last name: ");
+            newContact.lastName = Console.ReadLine();
 
-                Console.WriteLine("Enter Your MobileNumber: ");
-                newContact.mobileNumber = Console.ReadLine();
+            Console.WriteLine("Enter Your MobileNumber: ");
+            newContact.mobileNumber = Console.ReadLine();
 
-                Console.WriteLine("Enter Your Address: ");
-                newContact.address = Console.ReadLine();
+            Console.WriteLine("Enter Your Address: ");
+            newContact.address = Console.ReadLine();
 
-                Console.WriteLine("Enter Your City: ");
-                newContact.city = Console.ReadLine();
+            Console.WriteLine("Enter Your City: ");
+            newContact.city = Console.ReadLine();
 
-                Console.WriteLine("Enter  Your State: ");
-                newContact.state = Console.ReadLine();
+            Console.WriteLine("Enter  Your State: ");
+            newContact.state = Console.ReadLine();
 
-                Console.WriteLine("Enter Your Zip: ");
-                newContact.zip = Console.ReadLine();
+            Console.WriteLine("Enter Your Zip: ");
+            newContact.zip = Console.ReadLine();
 
-                Console.WriteLine("Enter Your Email Id: ");
-                newContact.email = Console.ReadLine();
+            Console.WriteLine("Enter Your Email Id: ");
+            newContact.email = Console.ReadLine();
 
-                con.Add(newContact);
+            con.Add(newContact);
             AddressBookDic.Add(newContact.firstName, con);
         }
 
-      
+        public void SearchPersonInCityOrState()
+        {
+            Console.WriteLine("Enter City or State name to search Person: ");
+            string cityOrStateName = Console.ReadLine();
+
+            var result = AddressBookDic.Values.SelectMany(x => x.Where(y => y.city.ToLower().Equals(cityOrStateName) || y.state.ToLower().Equals(cityOrStateName)));
+
+            if (result.Count() == 0)
+            {
+                Console.WriteLine($"No Person found in {cityOrStateName}");
+            }
+            else
+            {
+                Console.WriteLine($"Persons found in {cityOrStateName}");
+                foreach (var contact in result)
+                {
+                    Console.WriteLine(contact.ToString());
+                }
+            }
+        }
 
         public void DisplayContact()
         {
@@ -73,6 +92,7 @@ namespace Update_AddressBookSystem
 
             while (flag == true)
             {
+               
                 Console.WriteLine("Do you want to add new contact YES(1) or NO(0)");
                 int option = int.Parse(Console.ReadLine());
 
@@ -85,14 +105,34 @@ namespace Update_AddressBookSystem
                             person.DisplayContact();
                             flag = true;
                             break;
-                            
+
                         }
                     case 0:
                         {
-                            Console.WriteLine("press any key for exit:");
-                            flag = false;
-                            break;
+                            Console.WriteLine("Do you want to search Person in a City or State YES(1) or NO(0)");
+                            int option1 = int.Parse(Console.ReadLine());
 
+                            switch (option1)
+                            {
+                                case 1:
+                                    {
+                                        Console.WriteLine("Please Enter city or state name: ");
+                                        person.SearchPersonInCityOrState();
+                                        flag = true;
+                                        break;
+                                    }
+                                case 0:
+                                    {
+                                        Console.WriteLine("press any key for exit:");
+                                        flag = false;
+                                        break;
+                                    }
+
+                                default:
+                                    Console.WriteLine("Invalid option selected");
+                                    break;
+                            }
+                            break;
                         }
                     default:
                         Console.WriteLine("Invalid option selected");
