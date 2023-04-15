@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-
-namespace Updated_AddressBookSystem
+﻿namespace Updated_AddressBookSystem
 {
     class AddressBookMainClass
     {
@@ -43,8 +38,8 @@ namespace Updated_AddressBookSystem
             Console.WriteLine("Contact added successfully!");
         }
 
-       
-       
+
+
 
         // DisplayContact method to display all contacts in the address book
         public void DisplayContact()
@@ -67,6 +62,25 @@ namespace Updated_AddressBookSystem
                 Console.WriteLine("-----------------------------------");
             }
         }
+
+        // Sort the contactList by City
+        public void SortByCity()
+        {
+            contactList.Sort((x, y) => string.Compare(x.city, y.city));
+        }
+
+        // Sort the contactList by State
+        public void SortByState()
+        {
+            contactList.Sort((x, y) => string.Compare(x.state, y.state));
+        }
+
+        // Sort the contactList by Zip
+        public void SortByZip()
+        {
+            contactList.Sort((x, y) => string.Compare(x.zip, y.zip));
+        }
+
 
         // Main method to execute the program
         static void Main(string[] args)
@@ -93,17 +107,52 @@ namespace Updated_AddressBookSystem
                         }
                     case 0:
                         {
-                            // Display all contacts and exit the program
-                            addressBook.DisplayContact();
-                            Console.WriteLine("Press any key to exit.");
-                            Console.ReadKey();
-                            flag = false;
+                            Console.WriteLine("Do you want to sort by city(1),state(2)and zip(3) or NO(0)");
+                            int option1 = int.Parse(Console.ReadLine());
+
+                            switch (option1)
+                            {
+                                case 0:
+
+                                    {
+
+                                        // Display all contacts and exit the program
+                                        addressBook.DisplayContact();
+                                        Console.WriteLine("Press any key to exit.");
+                                        Console.ReadKey();
+                                        flag = false;
+
+                                        break;
+                                    }
+
+                                case 1:
+                                    {
+                                        // Sort by City
+                                        addressBook.SortByCity();
+                                        addressBook.DisplayContact();
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        // Sort by State
+                                        addressBook.SortByState();
+                                        addressBook.DisplayContact();
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        // Sort by Zip
+                                        addressBook.SortByZip();
+                                        addressBook.DisplayContact();
+                                        break;
+                                    }
+                            }
                             break;
                         }
-                    default:
-                        Console.WriteLine("Invalid option selected");
-                        break;
+                        
+
                 }
+
             }
         }
     }
