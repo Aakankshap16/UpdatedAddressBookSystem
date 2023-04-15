@@ -1,25 +1,23 @@
-﻿using Updated_AddressBookSystem;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 
-namespace Update_AddressBookSystem
+namespace Updated_AddressBookSystem
 {
     class AddressBookMainClass
     {
+        // Define a list to store the contacts
+        List<Contact> contactList = new List<Contact>();
 
-        Dictionary<string, List<Contact>> AddressBookDic = new Dictionary<string, List<Contact>>();
+        // AddDetails method to add new contact to the list
         public void AddDetails()
         {
-            List<Contact> con = new List<Contact>();
             Contact newContact = new Contact();
-
 
             Console.WriteLine("Enter First Name: ");
             newContact.firstName = Console.ReadLine();
-            //Check for no duplicate Entry
-            if (AddressBookDic.ContainsKey(newContact.firstName))
-            {
-                Console.WriteLine("Duplicate Entries are not possible");
-                return;
-            }
+
             Console.WriteLine("Enter Last name: ");
             newContact.lastName = Console.ReadLine();
 
@@ -41,62 +39,45 @@ namespace Update_AddressBookSystem
             Console.WriteLine("Enter Your Email Id: ");
             newContact.email = Console.ReadLine();
 
-            con.Add(newContact);
-            AddressBookDic.Add(newContact.firstName, con);
+            contactList.Add(newContact);
+            Console.WriteLine("Contact added successfully!");
         }
 
-        public void SearchPersonInCityOrState()
-        {
-            string cityOrStateName = Console.ReadLine();
+       
+       
 
-            var cityResult = AddressBookDic.Values.SelectMany(x => x.Where(x => x.city.ToLower().Equals(cityOrStateName)));
-            var stateResult = AddressBookDic.Values.SelectMany(x => x.Where(x => x.state.ToLower().Equals(cityOrStateName)));
-
-            int cityCount = cityResult.Count();
-            int stateCount = stateResult.Count();
-
-            if (cityCount == 0 && stateCount == 0)
-            {
-                Console.WriteLine($"No Person found in {cityOrStateName}");
-            }
-            else
-            {
-                Console.WriteLine($"Persons found in {cityOrStateName}");
-                Console.WriteLine($"Count by City: {cityCount}");
-                Console.WriteLine($"Count by State: {stateCount}");
-               
-            }
-        }
-
-
+        // DisplayContact method to display all contacts in the address book
         public void DisplayContact()
         {
-            foreach (var key in AddressBookDic.Keys)
+            if (contactList.Count == 0)
             {
-                Console.WriteLine($"FirstNmae is {key}");
-                Console.WriteLine("################################"); 
+                Console.WriteLine("Address book is empty!");
+                return;
+            }
 
-                Console.WriteLine("The Details you stored in Address Book:");
+            // Sort the contactList alphabetically by Person's name
+            contactList.Sort((x, y) => string.Compare(x.firstName, y.firstName));
 
-                List<Contact> con = AddressBookDic[key];
-                foreach (var change in con)
-                {
-
-                    Console.WriteLine(change.ToString());
-                }
-
+            // Display the sorted contact list
+            Console.WriteLine("Address Book:");
+            Console.WriteLine("===================================");
+            foreach (var contact in contactList)
+            {
+                Console.WriteLine(contact.ToString());
+                Console.WriteLine("-----------------------------------");
             }
         }
-        public static void Main(string[] args)
+
+        // Main method to execute the program
+        static void Main(string[] args)
         {
             bool flag = true;
             Console.WriteLine("!!!!!!Welcome to Updated Adress Book Program!!!!!!");
             Console.WriteLine(" ");
-            AddressBookMainClass person = new AddressBookMainClass();
+            AddressBookMainClass addressBook = new AddressBookMainClass();
 
             while (flag == true)
             {
-               
                 Console.WriteLine("Do you want to add new contact YES(1) or NO(0)");
                 int option = int.Parse(Console.ReadLine());
 
@@ -104,55 +85,19 @@ namespace Update_AddressBookSystem
                 {
                     case 1:
                         {
-                            //FOR ADD DETAILS
+                            // Add new contact
                             Console.WriteLine("Please add new contact details: ");
-                            person.AddDetails();
-                            person.DisplayContact();
-                            flag = true;
+                            addressBook.AddDetails();
+                            addressBook.DisplayContact();
                             break;
-
                         }
                     case 0:
-                        { //FOR SEARCH OR EXIT
-                            Console.WriteLine("Do you want to search Person in a City or State YES(1) or NO(0)");
-                            int option1 = int.Parse(Console.ReadLine());
-
-                            switch (option1)
-                            {
-                                case 1:
-                                    {
-                                        //FOR SEARCH 
-                                        Console.WriteLine("Enter 1 to search by City, 2 to search by State: ");
-                                        int searchOption = int.Parse(Console.ReadLine());
-                                        if (searchOption == 1)
-                                        {
-                                            Console.WriteLine("Enter City  name to search Person: ");
-                                            person.SearchPersonInCityOrState();
-                                        }
-                                        else if (searchOption == 2)
-                                        {
-                                            Console.WriteLine("Enter  State name to search Person: ");
-                                            person.SearchPersonInCityOrState();
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("Invalid option selected");
-                                        }
-                                        break;
-
-                                    }
-                                case 0:
-                                    {
-                                        //FOR EXIT
-                                        Console.WriteLine("press any key for exit:");
-                                        flag = false;
-                                        break;
-                                    }
-
-                                default:
-                                    Console.WriteLine("Invalid option selected");
-                                    break;
-                            }
+                        {
+                            // Display all contacts and exit the program
+                            addressBook.DisplayContact();
+                            Console.WriteLine("Press any key to exit.");
+                            Console.ReadKey();
+                            flag = false;
                             break;
                         }
                     default:
@@ -160,7 +105,6 @@ namespace Update_AddressBookSystem
                         break;
                 }
             }
-
         }
     }
 }
