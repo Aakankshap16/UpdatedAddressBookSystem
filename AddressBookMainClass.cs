@@ -136,10 +136,10 @@ namespace Updated_AddressBookSystem
                         break;
                     case 6:
                         
-                        ReadTxtFile.SaveContactsToFile(addressBook.contactList);
+                        ReadCsvFile.SaveContactsToCsv(addressBook.contactList);
                         break;
                     case 7:
-                        ReadTxtFile.LoadContactsFromFile(addressBook.contactList);
+                        ReadCsvFile.LoadContactsFromCsv(addressBook.contactList);
                         break;
                     case 0:
                         Console.WriteLine("Exiting the program...");
