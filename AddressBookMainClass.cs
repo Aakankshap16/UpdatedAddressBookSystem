@@ -1,4 +1,7 @@
-﻿namespace Updated_AddressBookSystem
+﻿
+using System.Collections.Generic;
+
+namespace Updated_AddressBookSystem
 {
     class AddressBookMainClass
     {
@@ -81,79 +84,75 @@
             contactList.Sort((x, y) => string.Compare(x.zip, y.zip));
         }
 
+   
+
+
 
         // Main method to execute the program
         static void Main(string[] args)
         {
-            bool flag = true;
             Console.WriteLine("!!!!!!Welcome to Updated Adress Book Program!!!!!!");
             Console.WriteLine(" ");
             AddressBookMainClass addressBook = new AddressBookMainClass();
 
-            while (flag == true)
+
+            bool flag = true;
+
+            while (flag)
             {
-                Console.WriteLine("Do you want to add new contact YES(1) or NO(0)");
-                int option = int.Parse(Console.ReadLine());
+                Console.WriteLine("What would you like to do?");
+                Console.WriteLine("1. Add a new contact");
+                Console.WriteLine("2. Display all contacts");
+                Console.WriteLine("3. Sort contacts by city");
+                Console.WriteLine("4. Sort contacts by state");
+                Console.WriteLine("5. Sort contacts by zip");
+                Console.WriteLine("6. Save contacts to a file");
+                Console.WriteLine("7. Load contacts from a file");
+                Console.WriteLine("0. Exit");
+
+                int option =  Convert.ToInt32(Console.ReadLine());
+                
 
                 switch (option)
                 {
                     case 1:
-                        {
-                            // Add new contact
-                            Console.WriteLine("Please add new contact details: ");
-                            addressBook.AddDetails();
-                            addressBook.DisplayContact();
-                            break;
-                        }
-                    case 0:
-                        {
-                            Console.WriteLine("Do you want to sort by city(1),state(2)and zip(3) or NO(0)");
-                            int option1 = int.Parse(Console.ReadLine());
-
-                            switch (option1)
-                            {
-                                case 0:
-
-                                    {
-
-                                        // Display all contacts and exit the program
-                                        addressBook.DisplayContact();
-                                        Console.WriteLine("Press any key to exit.");
-                                        Console.ReadKey();
-                                        flag = false;
-
-                                        break;
-                                    }
-
-                                case 1:
-                                    {
-                                        // Sort by City
-                                        addressBook.SortByCity();
-                                        addressBook.DisplayContact();
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        // Sort by State
-                                        addressBook.SortByState();
-                                        addressBook.DisplayContact();
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        // Sort by Zip
-                                        addressBook.SortByZip();
-                                        addressBook.DisplayContact();
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
+                        Console.WriteLine("Please enter the new contact details:");
+                        addressBook.AddDetails();
+                        break;
+                    case 2:
+                        addressBook.DisplayContact();
+                        break;
+                    case 3:
+                        addressBook.SortByCity();
+                        addressBook.DisplayContact();
+                        break;
+                    case 4:
+                        addressBook.SortByState();
+                        addressBook.DisplayContact();
+                        break;
+                    case 5:
+                        addressBook.SortByZip();
+                        addressBook.DisplayContact();
+                        break;
+                    case 6:
                         
-
+                        ReadTxtFile.SaveContactsToFile(addressBook.contactList);
+                        break;
+                    case 7:
+                        ReadTxtFile.LoadContactsFromFile(addressBook.contactList);
+                        break;
+                    case 0:
+                        Console.WriteLine("Exiting the program...");
+                        flag = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input. Please enter a number from the menu.");
+                        break;
                 }
-
             }
+
         }
+
     }
 }
+
