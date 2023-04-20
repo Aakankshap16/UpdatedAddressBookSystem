@@ -1,12 +1,11 @@
-﻿
-using System.Collections.Generic;
-
-namespace Updated_AddressBookSystem
+﻿namespace Updated_AddressBookSystem
 {
     class AddressBookMainClass
     {
         // Define a list to store the contacts
         List<Contact> contactList = new List<Contact>();
+
+
 
         // AddDetails method to add new contact to the list
         public void AddDetails()
@@ -84,7 +83,7 @@ namespace Updated_AddressBookSystem
             contactList.Sort((x, y) => string.Compare(x.zip, y.zip));
         }
 
-   
+
 
 
 
@@ -106,12 +105,12 @@ namespace Updated_AddressBookSystem
                 Console.WriteLine("3. Sort contacts by city");
                 Console.WriteLine("4. Sort contacts by state");
                 Console.WriteLine("5. Sort contacts by zip");
-                Console.WriteLine("6. Save contacts to a file");
-                Console.WriteLine("7. Load contacts from a file");
+                Console.WriteLine("6. Save contacts to a json file");
+                Console.WriteLine("7. Load contacts from a json file");
                 Console.WriteLine("0. Exit");
 
-                int option =  Convert.ToInt32(Console.ReadLine());
-                
+                int option = Convert.ToInt32(Console.ReadLine());
+
 
                 switch (option)
                 {
@@ -135,11 +134,10 @@ namespace Updated_AddressBookSystem
                         addressBook.DisplayContact();
                         break;
                     case 6:
-                        
-                        ReadCsvFile.SaveContactsToCsv(addressBook.contactList);
+                        ReadJsonFile.SaveContactsToJson(addressBook.contactList);
                         break;
                     case 7:
-                        ReadCsvFile.LoadContactsFromCsv(addressBook.contactList);
+                        ReadJsonFile.LoadContactsFromJson(addressBook.contactList);
                         break;
                     case 0:
                         Console.WriteLine("Exiting the program...");
